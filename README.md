@@ -10,16 +10,37 @@ run_orchestrator.py (STEP 8)
 ```
 
 ## Run (needs an OpenAI API key)
+
+### Setup (once)
 ```bash
 python -m venv .venv && source .venv/bin/activate      # use a SEPARATE env from sdk_demo
 pip install -r requirements.txt
 cp .env.example .env        # put OPENAI_API_KEY in it (or export it)
-# 4 terminals, all from this folder, start in THIS order:
+```
+
+### Start 4 terminals, all from this folder, in THIS order
+Each command keeps running - leave it in its own terminal.
+
+**Terminal 1** - MCP tool server (hotel tools):
+```bash
 python mcp_server/hotel_mcp_server.py
+```
+
+**Terminal 2** - flight agent (A2A server, port 9001):
+```bash
 uvicorn flight_agent.server:a2a_app --port 9001
+```
+
+**Terminal 3** - hotel agent (A2A server, port 9002, needs Terminal 1 running first):
+```bash
 uvicorn hotel_agent.server:a2a_app --port 9002
+```
+
+**Terminal 4** - run the orchestrator (needs Terminals 2 and 3 running first):
+```bash
 python run_orchestrator.py "Find a flight and a hotel in Goa"
 ```
+
 Optional: `adk web` (run from this folder) opens ADK's dev UI to chat with the agents.
 
 ## What was tested
