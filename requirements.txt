@@ -1,0 +1,5 @@
+# ADK 2.x brings its own (newer, 1.x) a2a-sdk - keep this demo in its OWN virtual env,
+# separate from sdk_demo (which pins a2a-sdk 0.3.x).
+google-adk[a2a]
+mcp<2   # v2 renamed FastMCP -> MCPServer; keep v1 for this demo
+uvicorn
